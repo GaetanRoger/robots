@@ -49,7 +49,7 @@ public class Environment {
         return cells;
     }
 
-    public Collection<Robot> getRobots() {
+    public ArrayList<Robot> getRobots() {
         return robots;
     }
 
@@ -181,7 +181,7 @@ public class Environment {
 
         for (Tuple position :
                 positionsAround) {
-            cellsAround.add(cells.get(cells.get(position)));
+            cellsAround.add(cells.get(position));
         }
 
         return cellsAround;
