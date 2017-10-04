@@ -27,6 +27,15 @@ public class Environment {
      */
     private int m;
 
+    private int cycles = 10;
+
+    private int currentCycle = 0;
+
+    public Environment(int n, int m, int robotCount, int resourcesCount, int cycles) {
+        this(n, m, robotCount, resourcesCount);
+        this.cycles = cycles;
+    }
+
     public Environment(int n, int m, int robotCount, int resourcesCount) {
         this.n = n;
         this.m = m;
@@ -34,8 +43,6 @@ public class Environment {
         createCells(n, m);
         createResources(n, m, resourcesCount);
         createRobots(robotCount);
-
-
     }
 
     public Map<Tuple, Cell> getCells() {
@@ -67,6 +74,7 @@ public class Environment {
                 try {
                     cell.addRobot(robot);
                     robots.add(robot);
+                    robot.setCell(cell);
                     robotWasAdded = true;
                 } catch (UnsupportedOperationException ignored) {
                 }
@@ -114,8 +122,18 @@ public class Environment {
     }
 
     public void runSimulation() {
-        // TODO - implement Environment.runSimulation
-        throw new UnsupportedOperationException();
+        while (currentCycle < cycles)
+            runNextCycle();
+    }
+
+    public void runNextCycle() {
+        currentCycle++;
+
+        for (Robot robot :
+                robots) {
+            robot.pickUp();
+            robot.move();
+        }
     }
 
     public void measureQuality() {
@@ -127,15 +145,19 @@ public class Environment {
      * @param r
      */
     public Cell chooseNextCell(Robot r) {
-        // TODO - implement Environment.chooseNextCell
-        throw new UnsupportedOperationException();
+        ArrayList<Tuple> positions = _get4PositionsAround(r.getCell().getPosition());
+
+        int randInt = randomIntBetween(0, positions.size());
+        Tuple randPosition = positions.get(randInt);
+
+        return cells.get(randPosition);
     }
 
     /**
      * @param t
      */
     private Cell chooseRandomCellAround(@NotNull Tuple t) {
-        ArrayList<Tuple> availableChoices = get4PositionsAround(t);
+        ArrayList<Tuple> availableChoices = _get4PositionsAround(t);
 
         int randomInt = randomIntBetween(0, availableChoices.size());
         Tuple selectedTuple = availableChoices.get(randomInt);
@@ -169,7 +191,7 @@ public class Environment {
      * @param t Position entourée.
      * @return Les quatre positions entourant une position (gauche, droit, top, bottom).
      */
-    private ArrayList<Tuple> get4PositionsAround(Tuple t) {
+    private ArrayList<Tuple> _get4PositionsAround(Tuple t) {
         ArrayList<Tuple> availableChoices = new ArrayList<>();
 
         if (_isNextXBeforeRightBorder(t)) {
@@ -228,7 +250,7 @@ public class Environment {
      * @return Les huit positions entourant une position.
      */
     private ArrayList<Tuple> _get8PositionsAround(Tuple t) {
-        ArrayList<Tuple> positions = get4PositionsAround(t);
+        ArrayList<Tuple> positions = _get4PositionsAround(t);
 
         // Top right
         if (_isNextXBeforeRightBorder(t) && _isNextYBelowTopBorder(t)) {

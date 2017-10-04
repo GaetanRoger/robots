@@ -2,6 +2,8 @@ package fr.polytech.test.robots;
 
 import fr.polytech.robots.Cell;
 import fr.polytech.robots.Environment;
+import fr.polytech.robots.ResourceType;
+import fr.polytech.robots.Robot;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -16,12 +18,20 @@ public class EnvironmentTest {
         Assert.assertEquals(2 * 3, environment.getCells().size());
 
         int robotCount = 0;
+        int resourceCount = 0;
         for (Cell cell : environment.getCells().values()) {
             if (cell.getRobot() != null)
                 robotCount++;
+            else if (cell.getResource() != null)
+                resourceCount++;
+        }
+        for (Robot robot :
+                environment.getRobots()) {
+            Assert.assertNotNull(robot.getCell());
         }
 
         Assert.assertEquals(1, robotCount);
+        Assert.assertEquals(1 * ResourceType.values().length, resourceCount);
     }
 
     @Test
@@ -34,11 +44,26 @@ public class EnvironmentTest {
         Assert.assertEquals(10 * 10, environment.getCells().size());
 
         int robotCount = 0;
+        int resourceCount = 0;
         for (Cell cell : environment.getCells().values()) {
             if (cell.getRobot() != null)
                 robotCount++;
+            else if (cell.getResource() != null)
+                resourceCount++;
+        }
+
+        for (Robot robot :
+                environment.getRobots()) {
+            Assert.assertNotNull(robot.getCell());
         }
 
         Assert.assertEquals(10, robotCount);
+        Assert.assertEquals(10 * ResourceType.values().length, resourceCount);
+    }
+
+    @Test
+    public void testNoExceptionThrownWhenRunningSimulation() {
+        Environment environment = new Environment(5, 5, 2, 2);
+        environment.runSimulation();
     }
 }
