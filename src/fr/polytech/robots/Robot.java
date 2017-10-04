@@ -2,12 +2,13 @@ package fr.polytech.robots;
 
 import com.sun.istack.internal.NotNull;
 import com.sun.javaws.exceptions.ExitException;
+import fr.polytech.robots.interfaces.ResourceHoldable;
 
 import javax.management.InstanceAlreadyExistsException;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Robot {
+public class Robot implements ResourceHoldable{
 
 	private int id;
 	private Cell cell;
@@ -34,7 +35,7 @@ public class Robot {
 	public void setResource(Resource resource) {
 		this.resource = resource;
 	}
-	//TODO : May be an interface
+	//TODO : May be an interfaces
 	public void addResource(@NotNull Resource r) throws UnsupportedOperationException {
 		if (r == null)
 			throw new NullPointerException("r ne peut pas être null.");
