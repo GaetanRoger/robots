@@ -42,4 +42,9 @@ public class Tuple {
 
         return tuple.getX() == x && tuple.getY() == y;
     }
+
+    @Override
+    public String toString() {
+        return "(" + x + ";" + y + ")";
+    }
 }
