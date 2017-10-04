@@ -4,17 +4,17 @@ import com.sun.istack.internal.NotNull;
 
 public class Resource {
 
-	private ResourceType type;
+    private ResourceType type;
 
-	public Resource(@NotNull ResourceType type) {
-		if (type == null)
-			throw new NullPointerException("type ne peut pas être null.");
+    public Resource(@NotNull ResourceType type) {
+        if (type == null)
+            throw new NullPointerException("type ne peut pas être null.");
 
-		this.type = type;
-	}
+        this.type = type;
+    }
 
-	public ResourceType getType() {
-		return this.type;
-	}
+    public ResourceType getType() {
+        return this.type;
+    }
 
 }

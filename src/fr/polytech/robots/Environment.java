@@ -97,7 +97,8 @@ public class Environment {
                     try {
                         cell.addResource(resource);
                         resourceWasAdded = true;
-                    } catch (UnsupportedOperationException ignored) {}
+                    } catch (UnsupportedOperationException ignored) {
+                    }
                 } while (!resourceWasAdded);
             }
         }
@@ -211,6 +212,7 @@ public class Environment {
 
     /**
      * Vérifie que t.y - 1 n'est pas inférieur à zéro.
+     *
      * @param t
      * @return
      */
@@ -220,6 +222,7 @@ public class Environment {
 
     /**
      * Vérifie que t.x - 1 n'est pas inférieur à zéro.
+     *
      * @param t
      * @return
      */
@@ -229,6 +232,7 @@ public class Environment {
 
     /**
      * Vérifie que t.y + 1 n'est pas supérieur ou égal à m.
+     *
      * @param t
      * @return
      */
@@ -238,6 +242,7 @@ public class Environment {
 
     /**
      * Vérifie que t.x + 1 n'est pas supérieur ou égal à n.
+     *
      * @param t
      * @return
      */

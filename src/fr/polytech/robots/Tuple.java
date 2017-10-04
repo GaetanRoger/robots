@@ -4,8 +4,8 @@ import java.net.Inet4Address;
 
 public class Tuple {
 
-	private int x;
-	private int y;
+    private int x;
+    private int y;
 
     public Tuple(int x, int y) {
         this.x = x;
@@ -13,20 +13,20 @@ public class Tuple {
     }
 
     public int getX() {
-		return x;
-	}
+        return x;
+    }
 
-	public void setX(int x) {
-		this.x = x;
-	}
+    public void setX(int x) {
+        this.x = x;
+    }
 
-	public int getY() {
-		return y;
-	}
+    public int getY() {
+        return y;
+    }
 
-	public void setY(int y) {
-		this.y = y;
-	}
+    public void setY(int y) {
+        this.y = y;
+    }
 
     @Override
     public int hashCode() {
@@ -38,7 +38,7 @@ public class Tuple {
         if (!(obj instanceof Tuple))
             return false;
 
-        Tuple tuple = (Tuple)obj;
+        Tuple tuple = (Tuple) obj;
 
         return tuple.getX() == x && tuple.getY() == y;
     }
