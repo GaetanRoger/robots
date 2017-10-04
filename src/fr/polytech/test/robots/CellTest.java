@@ -11,7 +11,7 @@ import org.junit.rules.ExpectedException;
 public class CellTest {
 
     @Test
-    public void testAddRobot() throws UnsupportedOperationException {
+    public void testAddRobot() {
         Cell cell = new Cell();
         Robot robot = new Robot();
 
@@ -22,7 +22,7 @@ public class CellTest {
     }
 
     @Test(expected = UnsupportedOperationException.class)
-    public void testAddRobotAlreadyExists() throws UnsupportedOperationException {
+    public void testAddRobotAlreadyExists() {
         Robot robot1 = new Robot();
         Robot robot2 = new Robot();
 
@@ -32,13 +32,13 @@ public class CellTest {
     }
 
     @Test(expected = NullPointerException.class)
-    public void testAddRobotNull() throws UnsupportedOperationException {
+    public void testAddRobotNull() {
         Cell cell = new Cell();
         cell.addRobot(null);
     }
 
     @Test
-    public void testRemoveRobot() throws Exception {
+    public void testRemoveRobot() {
         Robot robot = new Robot();
         Cell cell = new Cell();
 
@@ -49,7 +49,7 @@ public class CellTest {
     }
 
     @Test
-    public void testAddResource() throws UnsupportedOperationException {
+    public void testAddResource() {
         Cell cell = new Cell();
         Resource resource = new Resource();
 
@@ -60,7 +60,7 @@ public class CellTest {
     }
 
     @Test(expected = UnsupportedOperationException.class)
-    public void testAddResourceAlreadyExists() throws UnsupportedOperationException {
+    public void testAddResourceAlreadyExists() {
         Resource resource1 = new Resource();
         Resource resource2 = new Resource();
 
@@ -70,13 +70,13 @@ public class CellTest {
     }
 
     @Test(expected = NullPointerException.class)
-    public void testAddResourceNull() throws UnsupportedOperationException {
+    public void testAddResourceNull() {
         Cell cell = new Cell();
         cell.addResource(null);
     }
 
     @Test
-    public void testRemoveResource() throws Exception {
+    public void testRemoveResource() {
         Resource resource = new Resource();
         Cell cell = new Cell();
 
