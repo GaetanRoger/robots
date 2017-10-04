@@ -1,9 +1,6 @@
 package fr.polytech.test.robots;
 
-import fr.polytech.robots.Cell;
-import fr.polytech.robots.Resource;
-import fr.polytech.robots.ResourceType;
-import fr.polytech.robots.Robot;
+import fr.polytech.robots.*;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -13,7 +10,7 @@ public class CellTest {
 
     @Test
     public void testAddRobot() {
-        Cell cell = new Cell();
+        Cell cell = new Cell(new Tuple(0, 0));
         Robot robot = new Robot(0);
 
         cell.addRobot(robot);
@@ -27,7 +24,7 @@ public class CellTest {
         Robot robot1 = new Robot(0);
         Robot robot2 = new Robot(0);
 
-        Cell cell = new Cell();
+        Cell cell = new Cell(new Tuple(0, 0));
         cell.addRobot(robot1);
         cell.addRobot(robot2);
     }
@@ -37,21 +34,21 @@ public class CellTest {
         Robot robot = new Robot(0);
         Resource resource = new Resource(ResourceType.BLEUE);
 
-        Cell cell = new Cell();
+        Cell cell = new Cell(new Tuple(0, 0));
         cell.addResource(resource);
         cell.addRobot(robot);
     }
 
     @Test(expected = NullPointerException.class)
     public void testAddRobotNull() {
-        Cell cell = new Cell();
+        Cell cell = new Cell(new Tuple(0, 0));
         cell.addRobot(null);
     }
 
     @Test
     public void testRemoveRobot() {
         Robot robot = new Robot(0);
-        Cell cell = new Cell();
+        Cell cell = new Cell(new Tuple(0, 0));
 
         cell.addRobot(robot);
         cell.removeRobot();
@@ -61,7 +58,7 @@ public class CellTest {
 
     @Test
     public void testAddResource() {
-        Cell cell = new Cell();
+        Cell cell = new Cell(new Tuple(0, 0));
         Resource resource = new Resource(ResourceType.BLEUE);
 
         cell.addResource(resource);
@@ -75,7 +72,7 @@ public class CellTest {
         Resource resource1 = new Resource(ResourceType.BLEUE);
         Resource resource2 = new Resource(ResourceType.BLEUE);
 
-        Cell cell = new Cell();
+        Cell cell = new Cell(new Tuple(0, 0));
         cell.addResource(resource1);
         cell.addResource(resource2);
     }
@@ -85,21 +82,21 @@ public class CellTest {
         Resource resource = new Resource(ResourceType.BLEUE);
         Robot robot = new Robot(0);
 
-        Cell cell = new Cell();
+        Cell cell = new Cell(new Tuple(0, 0));
         cell.addRobot(robot);
         cell.addResource(resource);
     }
 
     @Test(expected = NullPointerException.class)
     public void testAddResourceNull() {
-        Cell cell = new Cell();
+        Cell cell = new Cell(new Tuple(0, 0));
         cell.addResource(null);
     }
 
     @Test
     public void testRemoveResource() {
         Resource resource = new Resource(ResourceType.BLEUE);
-        Cell cell = new Cell();
+        Cell cell = new Cell(new Tuple(0, 0));
 
         cell.addResource(resource);
         cell.removeResource();
