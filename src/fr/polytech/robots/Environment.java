@@ -27,10 +27,90 @@ public class Environment {
      */
     private int m;
 
-    public Environment(int n, int m, int robotCount) {
+    public Environment(int n, int m, int robotCount, int resourcesCount) {
         this.n = n;
         this.m = m;
-        
+
+        createCells(n, m);
+        createResources(n, m, resourcesCount);
+        createRobots(robotCount);
+
+
+    }
+
+    public Map<Tuple, Cell> getCells() {
+        return cells;
+    }
+
+    public Collection<Robot> getRobots() {
+        return robots;
+    }
+
+    public int getN() {
+        return n;
+    }
+
+    public int getM() {
+        return m;
+    }
+
+    private void createRobots(int robotCount) {
+        for (int i = 0; i < robotCount; ++i) {
+            Cell cell;
+            Robot robot = new Robot(i);
+            boolean robotWasAdded = false;
+
+            do {
+                Tuple randPosition = randomPosition();
+                cell = cells.get(randPosition);
+
+                try {
+                    cell.addRobot(robot);
+                    robots.add(robot);
+                    robotWasAdded = true;
+                } catch (UnsupportedOperationException ignored) {
+                }
+            } while (!robotWasAdded);
+        }
+    }
+
+    private void createResources(int n, int m, int resourcesCount) {
+        for (int i = 0; i < resourcesCount; ++i) {
+            for (ResourceType resourceType :
+                    ResourceType.values()) {
+                Resource resource = new Resource(resourceType);
+                Cell cell;
+                boolean resourceWasAdded = false;
+
+                do {
+                    Tuple randPosition = randomPosition();
+                    cell = cells.get(randPosition);
+
+                    try {
+                        cell.addResource(resource);
+                        resourceWasAdded = true;
+                    } catch (UnsupportedOperationException ignored) {}
+                } while (!resourceWasAdded);
+            }
+        }
+    }
+
+    private Tuple randomPosition() {
+        int randX = randomIntBetween(0, n);
+        int randY = randomIntBetween(0, m);
+        return new Tuple(randX, randY);
+    }
+
+    private void createCells(int n, int m) {
+        for (int x = 0; x < n; ++x) {
+            for (int y = 0; y < m; ++y) {
+                Cell cell = new Cell();
+                Tuple tuple = new Tuple(x, y);
+
+                cell.setPosition(tuple);
+                cells.put(tuple, cell);
+            }
+        }
     }
 
     public void runSimulation() {
@@ -57,10 +137,14 @@ public class Environment {
     private Cell chooseRandomCellAround(@NotNull Tuple t) {
         ArrayList<Tuple> availableChoices = get4PositionsAround(t);
 
-        int randomInt = ThreadLocalRandom.current().nextInt(0, availableChoices.size());
+        int randomInt = randomIntBetween(0, availableChoices.size());
         Tuple selectedTuple = availableChoices.get(randomInt);
 
         return cells.get(selectedTuple);
+    }
+
+    private int randomIntBetween(int min, int max) {
+        return ThreadLocalRandom.current().nextInt(min, max);
     }
 
     /**
