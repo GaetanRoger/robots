@@ -2,10 +2,12 @@ package fr.polytech.robots;
 
 import com.sun.istack.internal.NotNull;
 
+import javax.management.InstanceAlreadyExistsException;
+
 public class Cell {
 
 	private Tuple position;
-	private Robot robot;
+	private Robot robot = null;
 	private Resource resource;
 
     /**
@@ -13,12 +15,19 @@ public class Cell {
      *
      * @param r Robot à ajouter.
      */
-	public void addRobot(@NotNull Robot r) {
+	public void addRobot(@NotNull Robot r) throws InstanceAlreadyExistsException {
+	    if (r == null)
+	        throw new NullPointerException("r ne peut pas être null.");
+	    if (this.robot != null)
+	        throw new InstanceAlreadyExistsException("Un robot est déjà sur cette cellule (utiliser removeRobot() pour l'enlever).");
+
 		this.robot = r;
 	}
 
     /**
      * Supprime le robot de la case.
+     *
+     * Si aucun robot n'est sur la case, ne fait rien.
      */
 	public void removeRobot() {
 		this.robot = null;
@@ -33,6 +42,8 @@ public class Cell {
 
     /**
      * Supprime la ressource de la case.
+     *
+     * S'il n'y a pas de ressource sur la case, ne fait rien.
      */
 	public void removeResource() {
 		this.resource = null;
@@ -42,8 +53,24 @@ public class Cell {
      * Ajoute une ressource à la case.
      * @param r Ressource à ajouter à la case.
      */
-	public void addResource(@NotNull Resource r) {
-		this.resource = r;
+	public void addResource(@NotNull Resource r) throws InstanceAlreadyExistsException {
+	    if (r == null)
+	        throw new NullPointerException("r ne peut pas être null.");
+        if (this.resource != null)
+            throw new InstanceAlreadyExistsException("Une ressource est déjà sur cette cellule (utiliser removeResource() pour l'enlever).");
+
+	    this.resource = r;
 	}
 
+    public Robot getRobot() {
+        return robot;
+    }
+
+    public Resource getResource() {
+        return resource;
+    }
+
+    public void setPosition(Tuple position) {
+        this.position = position;
+    }
 }
