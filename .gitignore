@@ -1,5 +1,6 @@
 .idea
 *.vpp.bak*
 *.vpp.lck*
-robots.iml
-/out/
+*.iml
+out
+/bin/
