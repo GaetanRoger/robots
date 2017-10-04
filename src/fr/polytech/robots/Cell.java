@@ -3,7 +3,7 @@ package fr.polytech.robots;
 import com.sun.istack.internal.NotNull;
 
 
-public class Cell {
+public class Cell{
 
 	private Tuple position;
 	private Robot robot = null;
@@ -19,6 +19,8 @@ public class Cell {
 	        throw new NullPointerException("r ne peut pas être null.");
 	    if (this.robot != null)
 	        throw new UnsupportedOperationException("Un robot est déjà sur cette cellule (utiliser removeRobot() pour l'enlever).");
+        if (this.resource != null)
+            throw new UnsupportedOperationException("Une ressource est déjà sur cette cellule (utiliser removeResource() pour l'enlever).");
 
 		this.robot = r;
 	}
@@ -57,6 +59,8 @@ public class Cell {
 	        throw new NullPointerException("r ne peut pas être null.");
         if (this.resource != null)
             throw new UnsupportedOperationException("Une ressource est déjà sur cette cellule (utiliser removeResource() pour l'enlever).");
+        if (this.robot != null)
+            throw new UnsupportedOperationException("Un robot est déjà sur cette cellule (utiliser removeRobot()).");
 
 	    this.resource = r;
 	}
