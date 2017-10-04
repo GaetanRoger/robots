@@ -2,7 +2,6 @@ package fr.polytech.robots;
 
 import com.sun.istack.internal.NotNull;
 
-import javax.management.InstanceAlreadyExistsException;
 
 public class Cell {
 
@@ -15,11 +14,11 @@ public class Cell {
      *
      * @param r Robot à ajouter.
      */
-	public void addRobot(@NotNull Robot r) throws InstanceAlreadyExistsException {
+	public void addRobot(@NotNull Robot r) throws UnsupportedOperationException {
 	    if (r == null)
 	        throw new NullPointerException("r ne peut pas être null.");
 	    if (this.robot != null)
-	        throw new InstanceAlreadyExistsException("Un robot est déjà sur cette cellule (utiliser removeRobot() pour l'enlever).");
+	        throw new UnsupportedOperationException("Un robot est déjà sur cette cellule (utiliser removeRobot() pour l'enlever).");
 
 		this.robot = r;
 	}
@@ -53,11 +52,11 @@ public class Cell {
      * Ajoute une ressource à la case.
      * @param r Ressource à ajouter à la case.
      */
-	public void addResource(@NotNull Resource r) throws InstanceAlreadyExistsException {
+	public void addResource(@NotNull Resource r) throws UnsupportedOperationException {
 	    if (r == null)
 	        throw new NullPointerException("r ne peut pas être null.");
         if (this.resource != null)
-            throw new InstanceAlreadyExistsException("Une ressource est déjà sur cette cellule (utiliser removeResource() pour l'enlever).");
+            throw new UnsupportedOperationException("Une ressource est déjà sur cette cellule (utiliser removeResource() pour l'enlever).");
 
 	    this.resource = r;
 	}

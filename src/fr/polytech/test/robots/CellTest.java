@@ -7,12 +7,11 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import javax.management.InstanceAlreadyExistsException;
 
 public class CellTest {
 
     @Test
-    public void testAddRobot() throws InstanceAlreadyExistsException {
+    public void testAddRobot() throws UnsupportedOperationException {
         Cell cell = new Cell();
         Robot robot = new Robot();
 
@@ -22,8 +21,8 @@ public class CellTest {
         Assert.assertTrue(robot == cellRobot);
     }
 
-    @Test(expected = InstanceAlreadyExistsException.class)
-    public void testAddRobotAlreadyExists() throws InstanceAlreadyExistsException {
+    @Test(expected = UnsupportedOperationException.class)
+    public void testAddRobotAlreadyExists() throws UnsupportedOperationException {
         Robot robot1 = new Robot();
         Robot robot2 = new Robot();
 
@@ -33,7 +32,7 @@ public class CellTest {
     }
 
     @Test(expected = NullPointerException.class)
-    public void testAddRobotNull() throws InstanceAlreadyExistsException {
+    public void testAddRobotNull() throws UnsupportedOperationException {
         Cell cell = new Cell();
         cell.addRobot(null);
     }
@@ -50,7 +49,7 @@ public class CellTest {
     }
 
     @Test
-    public void testAddResource() throws InstanceAlreadyExistsException {
+    public void testAddResource() throws UnsupportedOperationException {
         Cell cell = new Cell();
         Resource resource = new Resource();
 
@@ -60,8 +59,8 @@ public class CellTest {
         Assert.assertTrue(resource == cellResource);
     }
 
-    @Test(expected = InstanceAlreadyExistsException.class)
-    public void testAddResourceAlreadyExists() throws InstanceAlreadyExistsException {
+    @Test(expected = UnsupportedOperationException.class)
+    public void testAddResourceAlreadyExists() throws UnsupportedOperationException {
         Resource resource1 = new Resource();
         Resource resource2 = new Resource();
 
@@ -71,7 +70,7 @@ public class CellTest {
     }
 
     @Test(expected = NullPointerException.class)
-    public void testAddResourceNull() throws InstanceAlreadyExistsException {
+    public void testAddResourceNull() throws UnsupportedOperationException {
         Cell cell = new Cell();
         cell.addResource(null);
     }
