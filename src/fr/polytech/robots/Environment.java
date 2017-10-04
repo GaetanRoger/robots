@@ -5,12 +5,17 @@ import com.sun.istack.internal.NotNull;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
+/**
+ * Classe représentant un environnement.
+ * <p>
+ * L'environnement est le point d'entrée de la simulation et en dirige le déroulement.
+ */
 public class Environment {
 
     /**
      * Cases et leur position.
      */
-    private Map<Tuple, Cell> cells = new HashMap<Tuple, Cell>();
+    private Map<Tuple, Cell> cells = new HashMap<>();
 
     /**
      * Tous les robots créés.
@@ -27,107 +32,169 @@ public class Environment {
      */
     private int m;
 
+    /**
+     * Nombre de cycles de la simulation.
+     */
     private int cycles = 10;
 
+    /**
+     * Cycle courant.
+     */
     private int currentCycle = 0;
 
+    /**
+     * Constructeur.
+     *
+     * @param n              Largeur de la grille.
+     * @param m              Hauteur de la grille.
+     * @param robotCount     Nombre de robots à placer sur la grille.
+     * @param resourcesCount Nombre de ressource de chaque type à placer sur la grille.
+     * @param cycles         Nombre de cycles de la simulation.
+     */
     public Environment(int n, int m, int robotCount, int resourcesCount, int cycles) {
         this(n, m, robotCount, resourcesCount);
         this.cycles = cycles;
     }
 
+    /**
+     * Constructeur.
+     *
+     * @param n              Largeur de la grille.
+     * @param m              Hauteur de la grille.
+     * @param robotCount     Nombre de robots à placer sur la grille.
+     * @param resourcesCount Nombre de ressource de chaque type à placer sur la grille.
+     */
     public Environment(int n, int m, int robotCount, int resourcesCount) {
         this.n = n;
         this.m = m;
 
-        createCells(n, m);
-        createResources(n, m, resourcesCount);
-        createRobots(robotCount);
+        _createCells(n, m);
+        _createResources(resourcesCount);
+        _createRobots(robotCount);
     }
 
+    /**
+     * @return les cellules de la grille sous la forme d'une association `postion -> cellule`.
+     */
     public Map<Tuple, Cell> getCells() {
         return cells;
     }
 
+    /**
+     * @return tous les robots présents sur la grille.
+     */
     public ArrayList<Robot> getRobots() {
         return robots;
     }
 
+    /**
+     * @return la largeur de la grille.
+     */
     public int getN() {
         return n;
     }
 
+    /**
+     * @return la hauteur de la grille.
+     */
     public int getM() {
         return m;
     }
 
-    private void createRobots(int robotCount) {
-        for (int i = 0; i < robotCount; ++i) {
-            Cell cell;
-            Robot robot = new Robot(i);
-            boolean robotWasAdded = false;
-
-            do {
-                Tuple randPosition = randomPosition();
-                cell = cells.get(randPosition);
-
-                try {
-                    cell.addRobot(robot);
-                    robots.add(robot);
-                    robot.setCell(cell);
-                    robotWasAdded = true;
-                } catch (UnsupportedOperationException ignored) {
-                }
-            } while (!robotWasAdded);
-        }
-    }
-
-    private void createResources(int n, int m, int resourcesCount) {
-        for (int i = 0; i < resourcesCount; ++i) {
-            for (ResourceType resourceType :
-                    ResourceType.values()) {
-                Resource resource = new Resource(resourceType);
-                Cell cell;
-                boolean resourceWasAdded = false;
-
-                do {
-                    Tuple randPosition = randomPosition();
-                    cell = cells.get(randPosition);
-
-                    try {
-                        cell.addResource(resource);
-                        resourceWasAdded = true;
-                    } catch (UnsupportedOperationException ignored) {
-                    }
-                } while (!resourceWasAdded);
-            }
-        }
-    }
-
-    private Tuple randomPosition() {
-        int randX = randomIntBetween(0, n);
-        int randY = randomIntBetween(0, m);
-        return new Tuple(randX, randY);
-    }
-
-    private void createCells(int n, int m) {
+    /**
+     * Crée les cellules de la grille et leur position.
+     *
+     * @param n Largeur de la grille.
+     * @param m Hauteur de la grille.
+     */
+    private void _createCells(int n, int m) {
         for (int x = 0; x < n; ++x) {
             for (int y = 0; y < m; ++y) {
-                Cell cell = new Cell();
-                Tuple tuple = new Tuple(x, y);
+                Tuple position = new Tuple(x, y);
+                Cell cell = new Cell(position);
 
-                cell.setPosition(tuple);
-                cells.put(tuple, cell);
+                cells.put(position, cell);
             }
         }
     }
 
+    /**
+     * Crée les ressources et les place sur la grille.
+     *
+     * @param resourcesCount Nombre de ressource de chaque type à placer.
+     */
+    private void _createResources(int resourcesCount) {
+        for (int i = 0; i < resourcesCount; ++i) {
+            for (ResourceType resourceType : ResourceType.values()) {
+                _createOneResource(resourceType);
+            }
+        }
+    }
+
+    /**
+     * Create a resource.
+     *
+     * @param resourceType Type of the resource to be created.
+     */
+    private void _createOneResource(ResourceType resourceType) {
+        Resource resource = new Resource(resourceType);
+        boolean resourceWasAdded = false;
+
+        while (!resourceWasAdded) {
+            Tuple randPosition = _generateRandomPosition();
+            Cell cell = cells.get(randPosition);
+
+            resourceWasAdded = cell.tryAddResource(resource);
+        }
+    }
+
+    /**
+     * Crée les robots et les place sur la grille.
+     *
+     * @param robotCount Nombre de robots à placer sur la grille.
+     */
+    private void _createRobots(int robotCount) {
+        for (int i = 0; i < robotCount; ++i) {
+            _createOneRobot(i);
+        }
+    }
+
+    /**
+     * Crée un robot.
+     *
+     * @param i ID du robot à créer.
+     */
+    private void _createOneRobot(int i) {
+        Cell cell = null;
+        Robot robot = new Robot(i);
+        boolean robotWasAdded = false;
+
+        while (!robotWasAdded) {
+            Tuple randPosition = _generateRandomPosition();
+            cell = cells.get(randPosition);
+
+            robotWasAdded = cell.tryAddRobot(robot);
+        }
+
+        robot.setCell(cell);
+        robots.add(robot);
+    }
+
+    /**
+     * Lance la simulation jusqu'à sa fin, c'est-à-dire pendant `cycles` cycles.
+     */
     public void runSimulation() {
         while (currentCycle < cycles)
             runNextCycle();
     }
 
+    /**
+     * Lance la simulation du prochaine cycle.
+     */
     public void runNextCycle() {
+        if (currentCycle == cycles)
+            throw new UnsupportedOperationException("Le nombre maximal de cycle est atteint.");
+
         currentCycle++;
 
         for (Robot robot :
@@ -137,25 +204,28 @@ public class Environment {
         }
     }
 
+    /**
+     * Mesure la qualité du résulat de la simulation.
+     */
     public void measureQuality() {
         // TODO - implement Environment.measureQuality
         throw new UnsupportedOperationException();
     }
 
     /**
-     * @param r
+     * Détermine la prochaine cellule sur laquelle le robot devrait aller.
+     *
+     * @param r Robot à déplacer.
+     * @return la cellule où le robot devrait aller.
+     * @// FIXME: 04/10/2017 vérifier qu'il n'y a pas un autre robot sur la cellule de destination
      */
     public Cell chooseNextCell(Robot r) {
-        ArrayList<Tuple> positions = _get4PositionsAround(r.getCell().getPosition());
-
-        int randInt = randomIntBetween(0, positions.size());
-        Tuple randPosition = positions.get(randInt);
-
-        return cells.get(randPosition);
+        return chooseRandomCellAround(r.getCell().getPosition());
     }
 
     /**
-     * @param t
+     * @param t Une position.
+     * @return Une cellule aléatoire autour de cette position.
      */
     private Cell chooseRandomCellAround(@NotNull Tuple t) {
         ArrayList<Tuple> availableChoices = _get4PositionsAround(t);
@@ -166,14 +236,20 @@ public class Environment {
         return cells.get(selectedTuple);
     }
 
+    /**
+     * Génère un entier aléatoire dans un intervalle donné.
+     *
+     * @param min Borne inférieure, inclue.
+     * @param max Borne supérieure, exclue.
+     * @return l'entier aléatoire généré.
+     */
     private int randomIntBetween(int min, int max) {
         return ThreadLocalRandom.current().nextInt(min, max);
     }
 
     /**
-     * Retourne les huit cases entourant le robot.
-     *
      * @param r Robot au centre des cases.
+     * @return les huit cases entourant le robot.
      */
     public ArrayList<Cell> getCellsAround(@NotNull Robot r) {
         Tuple robotPosition = r.getCell().getPosition();
@@ -211,46 +287,6 @@ public class Environment {
     }
 
     /**
-     * Vérifie que t.y - 1 n'est pas inférieur à zéro.
-     *
-     * @param t
-     * @return
-     */
-    private boolean _isPreviousYTopOfBottomBorder(Tuple t) {
-        return t.getY() - 1 >= 0;
-    }
-
-    /**
-     * Vérifie que t.x - 1 n'est pas inférieur à zéro.
-     *
-     * @param t
-     * @return
-     */
-    private boolean _isPreviousXAfterLeftBorder(Tuple t) {
-        return t.getX() - 1 >= 0;
-    }
-
-    /**
-     * Vérifie que t.y + 1 n'est pas supérieur ou égal à m.
-     *
-     * @param t
-     * @return
-     */
-    private boolean _isNextYBelowTopBorder(Tuple t) {
-        return t.getY() + 1 < m;
-    }
-
-    /**
-     * Vérifie que t.x + 1 n'est pas supérieur ou égal à n.
-     *
-     * @param t
-     * @return
-     */
-    private boolean _isNextXBeforeRightBorder(Tuple t) {
-        return t.getX() + 1 < n;
-    }
-
-    /**
      * @param t Position entourée.
      * @return Les huit positions entourant une position.
      */
@@ -275,5 +311,56 @@ public class Environment {
         }
 
         return positions;
+    }
+
+    /**
+     * Vérifie que t.y - 1 n'est pas inférieur à zéro.
+     *
+     * @param t Position à tester.
+     * @return vrai si la condition est vérifiée.
+     */
+    private boolean _isPreviousYTopOfBottomBorder(Tuple t) {
+        return t.getY() - 1 >= 0;
+    }
+
+    /**
+     * Vérifie que t.x - 1 n'est pas inférieur à zéro.
+     *
+     * @param t Position à tester.
+     * @return vrai si la condition est vérifiée.
+     */
+    private boolean _isPreviousXAfterLeftBorder(Tuple t) {
+        return t.getX() - 1 >= 0;
+    }
+
+    /**
+     * Vérifie que t.y + 1 n'est pas supérieur ou égal à m.
+     *
+     * @param t Position à tester.
+     * @return vrai si la condition est vérifiée.
+     */
+    private boolean _isNextYBelowTopBorder(Tuple t) {
+        return t.getY() + 1 < m;
+    }
+
+    /**
+     * Vérifie que t.x + 1 n'est pas supérieur ou égal à n.
+     *
+     * @param t Position à tester.
+     * @return vrai si la condition est vérifiée.
+     */
+    private boolean _isNextXBeforeRightBorder(Tuple t) {
+        return t.getX() + 1 < n;
+    }
+
+    /**
+     * Génère une position aléatoire sur la grille.
+     *
+     * @return la position aléatoire générée.
+     */
+    private Tuple _generateRandomPosition() {
+        int randX = randomIntBetween(0, n);
+        int randY = randomIntBetween(0, m);
+        return new Tuple(randX, randY);
     }
 }
