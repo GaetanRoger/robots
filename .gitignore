@@ -1,3 +1,6 @@
 .idea
 *.vpp.bak*
 *.vpp.lck*
+*.iml
+out
+/bin/

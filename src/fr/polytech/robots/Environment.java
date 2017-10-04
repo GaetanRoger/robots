@@ -41,7 +41,7 @@ public class Environment {
 	 * 
 	 * @param r
 	 */
-	public void getCellsAround(Robot r) {
+	public ArrayList<Cell> getCellsAround(Robot r) {
 		// TODO - implement Environment.getCellsAround
 		throw new UnsupportedOperationException();
 	}
