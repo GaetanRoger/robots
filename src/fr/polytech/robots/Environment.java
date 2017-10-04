@@ -15,7 +15,7 @@ public class Environment {
     /**
      * Tous les robots créés.
      */
-    private Collection<Robot> robots;
+    private ArrayList<Robot> robots = new ArrayList<>();
 
     /**
      * Largeur de la grille.
