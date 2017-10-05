@@ -4,3 +4,4 @@
 *.iml
 out
 /bin/
+*.log
