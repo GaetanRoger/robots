@@ -186,6 +186,8 @@ public class Environment {
      * Lance la simulation jusqu'à sa fin, c'est-à-dire pendant `cycles` cycles.
      */
     public void runSimulation() {
+        Log.log("Lancement de la simulation sur " + cycles + " cycles.");
+
         while (currentCycle < cycles)
             runNextCycle();
     }
@@ -199,8 +201,9 @@ public class Environment {
 
         currentCycle++;
 
-        for (Robot robot :
-                robots) {
+        Log.log("Lancement du cycle n°" + currentCycle);
+
+        for (Robot robot : robots) {
             robot.move();
         }
     }
@@ -227,18 +230,23 @@ public class Environment {
     /**
      * @param t           Une position.
      * @param avoidRobots Vrai pour ne pas retourner les cellules où un robot est présent.
-     * @return Une cellule aléatoire autour de cette position.
+     * @return Une cellule aléatoire autour de cette position, ou null si aucune cellule ne peut être choisie.
      */
     private Cell chooseRandomCellAround(@NotNull Tuple t, boolean avoidRobots) {
         ArrayList<Tuple> availableChoices = _get4PositionsAround(t);
+        int randomInt;
 
         if (avoidRobots) {
             availableChoices = _filterOutCellsWithRobots(availableChoices);
         }
 
-        int randomInt = randomIntBetween(0, availableChoices.size());
-        Tuple selectedTuple = availableChoices.get(randomInt);
+        try {
+             randomInt = randomIntBetween(0, availableChoices.size());
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
 
+        Tuple selectedTuple = availableChoices.get(randomInt);
         return cells.get(selectedTuple);
     }
 
@@ -251,7 +259,7 @@ public class Environment {
         ArrayList<Tuple> availableChoicesWithoutRobots = new ArrayList<>();
 
         for (Tuple position : availableChoices) {
-            if (cells.get(position).getResource() == null)
+            if (cells.get(position).getRobot() == null)
                 availableChoicesWithoutRobots.add(position);
         }
 
@@ -275,13 +283,20 @@ public class Environment {
      * @return les huit cases entourant le robot.
      */
     public ArrayList<Cell> getCellsAround(@NotNull Robot r) {
-        Tuple robotPosition = r.getCell().getPosition();
-        ArrayList<Tuple> positionsAround = _get8PositionsAround(robotPosition);
+        return getCellsAround(r.getCell());
+    }
+
+    public ArrayList<Cell> getCellsAround(@NotNull Cell cell) {
+        return getCellsAround(cell.getPosition());
+    }
+
+    public ArrayList<Cell> getCellsAround(@NotNull Tuple position) {
+        ArrayList<Tuple> positionsAround = _get8PositionsAround(position);
         ArrayList<Cell> cellsAround = new ArrayList<>(positionsAround.size());
 
-        for (Tuple position :
+        for (Tuple t :
                 positionsAround) {
-            cellsAround.add(cells.get(position));
+            cellsAround.add(cells.get(t));
         }
 
         return cellsAround;

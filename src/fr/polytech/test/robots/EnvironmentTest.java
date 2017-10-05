@@ -19,7 +19,7 @@ public class EnvironmentTest {
         for (Cell cell : environment.getCells().values()) {
             if (cell.getRobot() != null)
                 actualRobotCount++;
-            else if (cell.getResource() != null)
+            if (cell.getResource() != null)
                 actualResourceCount++;
         }
         for (Robot robot :
