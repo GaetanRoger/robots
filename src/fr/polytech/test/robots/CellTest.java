@@ -29,7 +29,7 @@ public class CellTest {
         cell.addRobot(robot2);
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testAddRobotWithResourcePresent() {
         Robot robot = new Robot(0);
         Resource resource = new Resource(ResourceType.BLEUE);
@@ -37,6 +37,9 @@ public class CellTest {
         Cell cell = new Cell(new Tuple(0, 0));
         cell.addResource(resource);
         cell.addRobot(robot);
+
+        Assert.assertTrue(resource == cell.getResource());
+        Assert.assertTrue(robot == cell.getRobot());
     }
 
     @Test(expected = NullPointerException.class)
@@ -77,7 +80,7 @@ public class CellTest {
         cell.addResource(resource2);
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testAddResourceWithRobotPresent() {
         Resource resource = new Resource(ResourceType.BLEUE);
         Robot robot = new Robot(0);
@@ -85,6 +88,9 @@ public class CellTest {
         Cell cell = new Cell(new Tuple(0, 0));
         cell.addRobot(robot);
         cell.addResource(resource);
+
+        Assert.assertTrue(resource == cell.getResource());
+        Assert.assertTrue(robot == cell.getRobot());
     }
 
     @Test(expected = NullPointerException.class)
