@@ -31,4 +31,8 @@ public class Resource {
         return this.type;
     }
 
+    @Override
+    public String toString() {
+        return "Resource n°" + hashCode() + " (" + type + ")";
+    }
 }
