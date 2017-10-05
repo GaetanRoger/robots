@@ -201,7 +201,6 @@ public class Environment {
 
         for (Robot robot :
                 robots) {
-            robot.pickUp();
             robot.move();
         }
     }
@@ -222,20 +221,42 @@ public class Environment {
      * @// FIXME: 04/10/2017 vérifier qu'il n'y a pas un autre robot sur la cellule de destination
      */
     public Cell chooseNextCell(Robot r) {
-        return chooseRandomCellAround(r.getCell().getPosition());
+        return chooseRandomCellAround(r.getCell().getPosition(), true);
     }
 
     /**
-     * @param t Une position.
+     * @param t           Une position.
+     * @param avoidRobots Vrai pour ne pas retourner les cellules où un robot est présent.
      * @return Une cellule aléatoire autour de cette position.
      */
-    private Cell chooseRandomCellAround(@NotNull Tuple t) {
+    private Cell chooseRandomCellAround(@NotNull Tuple t, boolean avoidRobots) {
         ArrayList<Tuple> availableChoices = _get4PositionsAround(t);
+
+        if (avoidRobots) {
+            availableChoices = _filterOutCellsWithRobots(availableChoices);
+        }
 
         int randomInt = randomIntBetween(0, availableChoices.size());
         Tuple selectedTuple = availableChoices.get(randomInt);
 
         return cells.get(selectedTuple);
+    }
+
+    /**
+     * Supprime les positions correspondants à des cellules contenant des robots.
+     * @param availableChoices List de positions.
+     * @return les positions correspondants à des cellules ne contenant pas des robots.
+     */
+    private ArrayList<Tuple> _filterOutCellsWithRobots(ArrayList<Tuple> availableChoices) {
+        ArrayList<Tuple> availableChoicesWithoutRobots = new ArrayList<>();
+
+        for (Tuple position : availableChoices) {
+            if (cells.get(position).getResource() == null)
+                availableChoicesWithoutRobots.add(position);
+        }
+
+        availableChoices = availableChoicesWithoutRobots;
+        return availableChoices;
     }
 
     /**
@@ -366,7 +387,7 @@ public class Environment {
         return new Tuple(randX, randY);
     }
 
-    public Cell getCellByPosition(Tuple position){
+    public Cell getCellByPosition(Tuple position) {
         Cell c1 = this.getCells().get(position);
         return c1;
 
