@@ -72,4 +72,12 @@ public class Cell {
     public void setPosition(Tuple position) {
         this.position = position;
     }
+    public boolean isEmpty() {
+		if(this.getResource() == null && this.getRobot() == null){
+			return true ;
+		} else {
+			return false;
+		}
+	}
+
 }

@@ -15,7 +15,7 @@ public class Environment {
     /**
      * Tous les robots créés.
      */
-    private Collection<Robot> robots;
+    private ArrayList<Robot> robots;
 
     /**
      * Largeur de la grille.
@@ -248,5 +248,12 @@ public class Environment {
         }
 
         return positions;
+    }
+
+    public Cell getCellByPosition(Tuple position){
+
+        Cell c1 = this.getCells().get(position);
+        return c1;
+
     }
 }
