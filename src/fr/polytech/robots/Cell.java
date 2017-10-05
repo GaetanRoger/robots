@@ -145,4 +145,12 @@ public class Cell implements ResourceHoldable {
     public void removeResource() {
         this.resource = null;
     }
+    public boolean isEmpty() {
+		if(this.getResource() == null && this.getRobot() == null){
+			return true ;
+		} else {
+			return false;
+		}
+	}
+
 }

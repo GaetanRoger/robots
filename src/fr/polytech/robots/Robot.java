@@ -155,8 +155,12 @@ public class Robot implements ResourceHoldable{
 	}
 
 	public void move() {
-
-
+		Cell current_cell = this.getCell();
+		Environment env = this.getEnvironment() ;
+		Cell next_cell = env.chooseNextCell(this);
+		current_cell.removeRobot();
+		next_cell.addRobot(this);
+		this.setCell(next_cell);
 	}
 
 

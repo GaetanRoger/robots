@@ -20,6 +20,7 @@ public class Environment {
     /**
      * Tous les robots créés.
      */
+
     private ArrayList<Robot> robots = new ArrayList<>();
 
     /**
@@ -362,5 +363,11 @@ public class Environment {
         int randX = randomIntBetween(0, n);
         int randY = randomIntBetween(0, m);
         return new Tuple(randX, randY);
+    }
+
+    public Cell getCellByPosition(Tuple position){
+        Cell c1 = this.getCells().get(position);
+        return c1;
+
     }
 }
