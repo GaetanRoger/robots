@@ -168,6 +168,7 @@ public class Environment {
     private void _createOneRobot(int i) {
         Cell cell = null;
         Robot robot = new Robot(i);
+        robot.setEnvironment(this);
         boolean robotWasAdded = false;
 
         while (!robotWasAdded) {
