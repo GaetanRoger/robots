@@ -14,8 +14,8 @@ public class Robot implements ResourceHoldable{
 	private Cell cell;
 	private Environment environment;
 	private Resource resource;
-	public float K_PLUS;
-	public float K_MINUS;
+	public double K_PLUS;
+	public double K_MINUS;
 
 
 	public Robot(int id, Cell cell, Resource resource) {
@@ -49,19 +49,19 @@ public class Robot implements ResourceHoldable{
 	}
 
 
-	public float getK_PLUS() {
+	public double getK_PLUS() {
 		return K_PLUS;
 	}
 
-	public void setK_PLUS(float k_PLUS) {
+	public void setK_PLUS(double k_PLUS) {
 		K_PLUS = k_PLUS;
 	}
 
-	public float getK_MINUS() {
+	public double getK_MINUS() {
 		return K_MINUS;
 	}
 
-	public void setK_MINUS(float k_MINUS) {
+	public void setK_MINUS(double k_MINUS) {
 		K_MINUS = k_MINUS;
 	}
 
@@ -94,20 +94,25 @@ public class Robot implements ResourceHoldable{
 		this.cell = c;
 	}
 
-	private double calculateProbaPick(float f) {
-		return Math.pow((K_PLUS/K_PLUS + f ),2);
+	public double calculateProbaPick(double f) {
+		//return (this.getK_PLUS()/(this.getK_PLUS() + f) ) ;
+		return Math.pow((K_PLUS/(K_PLUS + f) ),2);
 	}
-	private double calculateProbaPut(float f) {
+	public double calculateProbaPut(double f) {
 		return Math.pow((f/(K_MINUS+ f) ),2);
 	}
-	private float nbRessourceOccurance(ArrayList<Cell> cells, ResourceType rType){
-		float nbOcc = 0 ;
+	public double nbRessourceOccurance(ArrayList<Cell> cells, ResourceType rType){
+		int nbOcc = 0 ;
 		for(int i =0 ; i < cells.size();i++){
-			if(cells.get(i).getResource().getType() == rType){
-				nbOcc++;
+			Cell c = cells.get(i);
+			Resource r = c.getResource();
+			if(r != null){
+				if(r.getType() == rType){
+					nbOcc++;
+				}
 			}
 		}
-		return nbOcc ;
+		return nbOcc/cells.size() ;
 	}
 	public boolean pickUp() {
 
@@ -116,7 +121,7 @@ public class Robot implements ResourceHoldable{
 		if(r1 != null){
 			ArrayList cellsAround = this.getEnvironment().getCellsAround(this);
 
-			float f = nbRessourceOccurance(cellsAround,r1.getType()) ;
+			double f = nbRessourceOccurance(cellsAround,r1.getType()) ;
 			double res = calculateProbaPick(f) ;
 
 			Random rand = new Random();
@@ -139,7 +144,7 @@ public class Robot implements ResourceHoldable{
 			System.out.println("Case chargée, dépot impossible");
 		} else {
 			ArrayList cellsAround = this.getEnvironment().getCellsAround(this);
-			float f = nbRessourceOccurance(cellsAround,r2.getType()) ;
+			double f = nbRessourceOccurance(cellsAround,r2.getType()) ;
 			double res = calculateProbaPut(f) ;
 			Random rand = new Random();
 			float f_rand =  rand.nextInt((1) + 1) ;
