@@ -97,7 +97,7 @@ public class Robot implements ResourceHoldable {
     }
 
     public double calculateProbaPick(double f) {
-        return Math.pow((K_PLUS / K_PLUS + f), 2);
+        return Math.pow((K_PLUS / (K_PLUS + f)), 2);
     }
 
     public double calculateProbaPut(double f) {
@@ -109,9 +109,12 @@ public class Robot implements ResourceHoldable {
 
         for (Cell cell : cells) {
 
-            if (cell.getResource() != null && cell.getResource().getType() == rType) {
-                nbOcc++;
+            if (cell.getResource() != null && cell.getResource().getType() == rType){
+
+                    nbOcc++;
+
             }
+
         }
 
         return nbOcc/cells.size();

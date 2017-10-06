@@ -24,6 +24,7 @@ public class Resource {
         this.type = type;
     }
 
+
     /**
      * @return le type de la ressource.
      */

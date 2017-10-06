@@ -61,7 +61,7 @@ public class RobotTest {
         Robot r1 = new Robot(1);
         double nb_found = r1.nbRessourceOccurance(cells, ResourceType.BLEUE);
 
-        Assert.assertEquals(2/16,nb_found,0.0001);
+        Assert.assertEquals(0.125,nb_found,0.0001);
     }
 
     @Test
