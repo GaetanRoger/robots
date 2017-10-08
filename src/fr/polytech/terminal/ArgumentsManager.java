@@ -7,10 +7,11 @@ public class ArgumentsManager {
     public static int resourceCount = 75;
     public static int cycles = 10000;
     public static boolean print = true;
-    public static int delay = 0;
-    public static int steps = 10;
+    public static int delay = 100;
+    public static int steps = 1;
     public static boolean drawRobots = true;
     public static boolean drawHeldResources = true;
+    public static String version;
 
     public static void extractArgs(String[] args) {
         if (args.length > 0) {
@@ -26,6 +27,14 @@ public class ArgumentsManager {
     }
 
     private static void _readArgs(String[] args) throws Exception {
+        if (args[0].equals("--version")) {
+            System.out.println(version);
+            System.exit(0);
+        } else if (args[0].equals("--help")) {
+            _printUsage(args);
+            System.exit(0);
+        }
+
         for (String arg : args) {
             String[] split = arg.split("=");
             String command;
