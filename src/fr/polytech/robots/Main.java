@@ -4,8 +4,12 @@ import fr.polytech.terminal.ArgumentsManager;
 import fr.polytech.terminal.Terminal2;
 
 public class Main {
+    private final static String VERSION = "1.0";
+
+
     public static void main(String[] args) {
         Log.enabled = false;
+        ArgumentsManager.version = VERSION;
         ArgumentsManager.extractArgs(args);
 
         Environment env = new Environment(
