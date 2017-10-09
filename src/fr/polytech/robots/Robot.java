@@ -16,7 +16,7 @@ public class Robot implements ResourceHoldable {
     private Environment environment;
     private Resource resource;
     public double K_PLUS = 0.1f;
-    public double K_MINUS = 0.1f;
+    public double K_MINUS = 0.95f;
 
 
     public Robot(int id, Cell cell, Resource resource) {
@@ -202,7 +202,8 @@ public class Robot implements ResourceHoldable {
             Cell oldCell = this.getCell();
 
             // Dépose de la ressource.
-            putDown();
+            if (resource != null)
+                putDown();
 
             // Suppression de l'ancienne case
             oldCell.removeRobot();
@@ -213,7 +214,8 @@ public class Robot implements ResourceHoldable {
             setCell(nextCell);
 
             // Ramassage de la ressource
-            pickUp();
+            if (resource == null)
+                pickUp();
 
         } // Sinon on reste sur place pour ce tour.
     }
