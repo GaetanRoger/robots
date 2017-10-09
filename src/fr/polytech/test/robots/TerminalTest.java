@@ -69,15 +69,31 @@ public class TerminalTest {
     }
     @Test
     public void testDisplayEnvironment(){
-        Cell c1 = new Cell(new Tuple(0,0));
-        Cell c2 = new Cell(new Tuple(1,0));
-        Cell c3 = new Cell(new Tuple (2,0));
-        Cell c4 = new Cell(new Tuple(3,0));
-        Cell c5 = new Cell(new Tuple(0,1));
-        Cell c6 = new Cell(new Tuple(1,1));
-        Cell c7 = new Cell(new Tuple(2,1));
-        Cell c8 = new Cell(new Tuple(3,1));
-        Cell c9 = new Cell(new Tuple(0,2));
+        Environment env = new Environment(4,4,2,2);
+//        Cell c1 = new Cell(new Tuple(0,0));
+//        Cell c2 = new Cell(new Tuple(1,0));
+//        Cell c3 = new Cell(new Tuple (2,0));
+//        Cell c4 = new Cell(new Tuple(3,0));
+//        Cell c5 = new Cell(new Tuple(0,1));
+//        Cell c6 = new Cell(new Tuple(1,1));
+//        Cell c7 = new Cell(new Tuple(2,1));
+//        Cell c8 = new Cell(new Tuple(3,1));
+//        Cell c9 = new Cell(new Tuple(0,2));
+//        Resource r1 = new Resource(ResourceType.BLEUE);
+//        Resource r2 = new Resource(ResourceType.ROUGE);
+//        Robot robot3 = new Robot(1);
+//        Robot robot4 = new Robot(2);
+//
+//        c1.addResource(r1);
+//        c2.addResource(r2);
+//        c3.addRobot(robot3);
+//        c4.addRobot(robot4);
+////        robot3.addResource();
+
+        Terminal terminal = new Terminal();
+//        terminal.displayEnvironment(env);
+
+
 
     }
 }
