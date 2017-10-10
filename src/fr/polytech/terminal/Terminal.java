@@ -10,16 +10,6 @@ public class Terminal {
     public Terminal() {
     }
 
-    public void displayMain(){
-
-        System.out.println("***********************************************************************");
-        System.out.println("************** Welcome to the Robot's World ***************************");
-        System.out.println("***********************************************************************");
-        System.out.println("Choose one of those options : ");
-        System.out.println("1-  Play");
-        System.out.println("2-  Exit");
-    }
-
 
     public void printCell(Cell cell) {
 
