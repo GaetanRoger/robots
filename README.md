@@ -1,5 +1,7 @@
 # robots
 
+Ce repo étudiant est utilisé dans le cadre de la formation Ingénieur Informatique Apprentissage, Polytech Lyon — Université Claude Bernard Lyon 1.
+
 ## Architecture des dossiers
 * **doc/** : dossier contenant le rapport
 * **dist/** : dossier contenant les exécutables .jar
